@@ -17,6 +17,10 @@ rpm -qa --queryformat '%{installtime} %{installtime:date} %{name}\n' | sort | ta
 rpm -qa --queryformat '%{installtime}\n' | sort | tail -n 1
 
 ## putting it all together and substracting dates
-let last_patched=(``date +%s`` - ``rpm -qa --queryformat '%{installtime}\n' | sort | tail -n 1``)/86400
+current_date=$(date +%s)
+
+last_path_installed_date=$(rpm -qa --queryformat '%{installtime}\n' | sort | tail -n 1)
+
+let last_patched=($current_date - $last_path_installed_date)/86400
 
 echo $last_patched
